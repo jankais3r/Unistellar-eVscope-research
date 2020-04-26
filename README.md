@@ -9,16 +9,38 @@ The purpose of this research is to:
 2. Understand enough of it to be able to control the telescope and retrieve camera stream from a computer rather than the official mobile app
 
 ## Structure
-* Hardware
-* Software
-  * eVscope
-    * Filesystems
-    * SSH
-    * Enviroment
-    * fbo images
+* [Hardware](#hardware)
+* [Software](#software)
+  * [eVscope](#evscope)
+    * [Filesystems](#filesystems)
+    * [SSH](#enter-ssh)
+    * [Enviroment](#environment)
+    * [fbo images](#fbo-images)
   * Mobile app
 
 ## Hardware
+
+- System platform: [Raspberry Pi 3 A+](https://www.raspberrypi.org/products/raspberry-pi-3-model-a-plus/)
+- Custom board: Unistellar Unishield (Rev P)
+- Camera sensor: [Sony IMX224](https://www.sony-semicon.co.jp/products/common/pdf/IMX224.pdf)
+- Storage: 16GB SanDisk micro SD card
+
+Here is what you see once you remove the side cover:
+![eVscope without a cover](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/IMG_2289.jpg)
+
+And a close-up on the Unishield:
+![Unishield](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/IMG_2291.jpg)
+
+When we disconnect Unishield from the Raspi, we can see the bottom side of the PCB with a [dsPIC33E microchip](https://www.microchip.com/wwwproducts/en/dsPIC33EP128GM304) responsible for control of the motors. The Unishield also contains a [LSM6DSM](https://www.st.com/resource/en/datasheet/lsm6dsm.pdf) gyroscope/accelerometer module.
+![Unishield's underside](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/IMG_2343.jpg)
+
+See more pictures (and a video) [here](https://github.com/jankais3r/Unistellar-eVscope-research/tree/master/images/hardware).
+
+Here's a simple diagram of how are these things connected together:
+![Diagram](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/diagram.png)
+
+The Raspberry Pi does not use its DSI display interface, audio jack, or any of the USB ports. It gets power via GPIO pins from the Unishield, which is then directly soldered to a battery. The GPIO is also used for communication with the Unishield, e.g. to control the azimuth/altitude motors. The camera stream goes from the IMX224 sensor's board to the Unishield via an HDMI cable, and the data is then forwarded to the Raspberry Pi through the CSI camera interface. This is the same ribbon cable connector used by the official Raspberry Pi [camera module](https://www.raspberrypi.org/products/camera-module-v2/) (which uses IMX219, a different Sony sensor). Raspberry Pi then uses its own HDMI-out to display the starfield in the eye-piece, which is powered by an OLED display.
+
 
 ## Software
 
