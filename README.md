@@ -1,5 +1,5 @@
 # Unistellar eVscope research
-Research notes
+Reverse engineering notes
 
 [Product website](https://unistellaroptics.com/product/)
 
@@ -169,7 +169,7 @@ We've seen that the main executable is called `evsoft`, so let's see if there ar
 /usr/sbin/evsoft
 /usr/sbin/evdaemon
 ```
-Besides the already mentioned `evdaemon` that's a mere launcher daemon and `evsoft` that we'll look into shortly, there's just one interesting folder called `evsoft`. It doesn't contain much, just some more wifi configs and two images that can be projected to the eye-piece during a mirror-alignment and focusing process:
+Besides the already mentioned `evdaemon` that's a mere launcher daemon and `evsoft` that we'll look into shortly, there's just one interesting folder called `evsoft`. It doesn't contain much, just some more wifi configs and an [image](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/mire.rgba.png) and its [mask](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/mask_circle.rgba.png) that can be projected to the eye-piece during a focusing process:
 ```
 # ls /usr/share/evsoft
 hostapd-open.conf  hostapd-wpa.conf   mask.rgba.gz       sight.rgba.gz
