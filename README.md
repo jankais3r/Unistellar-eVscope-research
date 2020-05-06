@@ -1,5 +1,5 @@
 # Unistellar eVscope research
-Reverse engineering notes
+Reverse engineering notes - **this is a work in progress**
 
 [Product website](https://unistellaroptics.com/product/)
 
@@ -15,7 +15,8 @@ The purpose of this research is to:
     * [Filesystems](#filesystems)
     * [SSH](#enter-ssh)
     * [Enviroment](#environment)
-    * [fbo images](#fbo-images)
+    * [FBO Images](#fbo-images)
+    * [Does it run Doom?](#does-it-run-doom)
   * Mobile app
 
 ## Hardware
@@ -573,7 +574,7 @@ lrwxrwxrwx    1 root     root            17 Mar  3  2020 ubirename -> ../../bin/
 No package manager and a volatile filesystem means that we'll have to scp in any binary that's not currently available, e.g. `tcpdump` for dumping network traffic between the telescope and a mobile app, and we'll have to do to do it again after every reboot.
 
 
-#### fbo images
+#### FBO Images
 
 So, the user-data partition mounted under `/media/rw/` contains a folder called `files` with bunch of files in it. But what are those?
 
@@ -642,3 +643,12 @@ I have not figured out why these lower resolution pictures have so much noise in
 ![Wheee](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/star_glider.gif)
 
 We can also batch-process all of our fbo pictures with ImageMagick. Use the provided [process_fbo.sh](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/process_fbo.sh) script.
+
+
+#### Does it run Doom?
+
+[Yes*](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/doom.m4v)
+
+
+
+* eVscope == Raspberry Pi, so of course it does. However, as compiling [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Linux) on a box without a package manager would be very frustrating experience, this demo simply shows a static image.
