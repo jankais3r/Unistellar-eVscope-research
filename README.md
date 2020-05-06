@@ -647,8 +647,8 @@ We can also batch-process all of our fbo pictures with ImageMagick. Use the prov
 
 #### Does it run Doom?
 
-[Yes*](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/doom.m4v)
+[Yes](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/doom.m4v)*
 
 
 
-* eVscope == Raspberry Pi, so of course it does. However, as compiling [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Linux) on a box without a package manager would be very frustrating experience, this demo simply shows a static image.
+&ast; eVscope == Raspberry Pi, so of course it does run Doom. However, as compiling [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Linux) on a box without a package manager would be a very frustrating experience, this demo simply shows a static image.
