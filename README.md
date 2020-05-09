@@ -254,7 +254,7 @@ Let's see some of them fully rendered.
 ![Stars](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1585596902862.png)
 ![Moon](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1585597336216.png)
 ![More stars](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1586379967316.png)
-Keep in mind that these pictures were taken automatically by the telescope for research purposes and they were not meant to be viewed by the telescope's owner. Also I had the telescope on my balcony right next to a street light, so excuse the light polution in the first picture.
+Keep in mind that these pictures were taken automatically by the telescope for research purposes and they were not meant to be viewed by the telescope's owner. What you see in the last picture is a "dark frame", showing pixels that light up on the camera's sensor even when the telescope cover is on. The telescope is smart enough to account for them when rendering the photos meant for consumption.
 
 But what about the 1.9MB files? Try to load them, you'll see just a mess of pixels. Clearly they are taken at a lower resolution (hence the lower file size), but what resolution is that? If you open them in a hex editor, you'll also notice that 1) they have no header, and 2) they have a footer of varying size, hence giving us files of either `1,936,656` or `1,936,648` bytes in size.
 ![1.9MB fbo](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/lowres_fbo.png)
@@ -280,6 +280,5 @@ You can use the provided script [process_fbo_rgb.sh] to render the pictures in c
 [Yes](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/doom.m4v)*
 
 ![Doom](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/doom.gif)
-
 
 &ast; eVscope == Raspberry Pi, so of course it does run Doom. However, as compiling [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Linux) on a box without a package manager would be a very frustrating experience, this demo simply shows a static image.
