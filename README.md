@@ -273,7 +273,7 @@ We can also batch-process all of our fbo pictures with ImageMagick. Use the prov
 
 ImageMagick doesn't have seem to have a built-in support for decoding color information encoded in the Bayer format, but we can use [bayer2rgb](https://github.com/jdthomas/bayer2rgb) to get color versions of those pictures. However, there's not that much to be gained by introducing color. See for yourself.
 ![Stars with colorful noise](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1588798962319.fbo.tiff)
-You can use the provided script [process_fbo_rgb.sh] to render the pictures in color.
+You can use the provided script [process_fbo_rgb.sh](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/process_fbo_rgb.sh) to render the pictures in color.
 
 #### Does it run Doom?
 
