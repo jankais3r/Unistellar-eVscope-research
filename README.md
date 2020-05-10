@@ -16,6 +16,7 @@ The purpose of this research is to:
     * [SSH](#enter-ssh)
     * [Enviroment](#environment)
     * [FBO Images](#fbo-images)
+    * [evsoft](#evsoft)
     * [Does it run Doom?](#does-it-run-doom)
   * Mobile app
 
@@ -395,6 +396,43 @@ We can also batch-process all of our fbo pictures with ImageMagick. Use the prov
 ImageMagick doesn't have seem to have a built-in support for decoding color information encoded in the Bayer format, but we can use [bayer2rgb](https://github.com/jdthomas/bayer2rgb) to get color versions of those pictures. However, there's not that much to be gained by introducing color. See for yourself.
 ![Stars with colorful noise](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1588798962319.fbo.tiff)
 You can use the provided script [process_fbo_rgb.sh](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/process_fbo_rgb.sh) to render the pictures in color.
+
+#### evsoft
+
+As we've discussed earlier, evsoft is the main binary running on the telescope.
+
+It is responsible for (non-exhaustive list):
+* Establishing connection with the mobile clients
+* Controlling the hardware (camera, motors, display)
+* Figuring out what part of the sky the telescope is looking at
+* Processing the camera data and sending it to the mobile clients
+
+
+The Unistellar team chose [ZeroMQ](https://zeromq.org) library for 1) routing the camera data within the evsoft process, and 2) communication between the telescope and the mobile apps. It seems to be a good choice for a multiplatform application. The only downside I found so far is that I've never used it before, so my research is going a bit slower than I would like.
+
+I've ran the evsoft binary through strings, and I've found these relevant [inproc://](http://api.zeromq.org/2-1:zmq-inproc) zmq endpoints:
+```
+inproc://deinterlacing_frame
+inproc://background_frame
+inproc://stack_frame
+inproc://raw_frame
+inproc://src_frame
+inproc://bayer_frame
+inproc://isp_frame0 in_frame0
+inproc://isp_frame1 out_frame1
+inproc://fx_frame in_frame
+inproc://split_frame0
+inproc://split_frame1
+inproc://resized_frame
+inproc://comp_frame
+inproc://sink_frame out_sink
+inproc://deinterlacing_frame
+inproc://background_frame
+inproc://out_rgb_frame out_rgb_frame
+inproc://out_yuv_frame out_yuv_frame
+```
+They all seem to be holding camera data in different states, however the inproc scheme makes them unreachable unless we would inject ourselves into the evsoft process. It's an option, but my primary goal is to reverse engineer the API used by the mobile apps, not to hack the telescope. zmq also supports tcp:// sockets, so we'll look at those next.
+
 
 #### Does it run Doom?
 
