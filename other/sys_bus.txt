@@ -1,0 +1,369 @@
+# tree /sys/bus
+|-- amba
+|   |-- devices
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- clockevents
+|   |-- devices
+|   |   |-- broadcast -> ../../../devices/system/clockevents/broadcast
+|   |   |-- clockevent0 -> ../../../devices/system/clockevents/clockevent0
+|   |   |-- clockevent1 -> ../../../devices/system/clockevents/clockevent1
+|   |   |-- clockevent2 -> ../../../devices/system/clockevents/clockevent2
+|   |   `-- clockevent3 -> ../../../devices/system/clockevents/clockevent3
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- clocksource
+|   |-- devices
+|   |   `-- clocksource0 -> ../../../devices/system/clocksource/clocksource0
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- container
+|   |-- devices
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- cpu
+|   |-- devices
+|   |   |-- cpu0 -> ../../../devices/system/cpu/cpu0
+|   |   |-- cpu1 -> ../../../devices/system/cpu/cpu1
+|   |   |-- cpu2 -> ../../../devices/system/cpu/cpu2
+|   |   `-- cpu3 -> ../../../devices/system/cpu/cpu3
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- genpd
+|   |-- devices
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- gpio
+|   |-- devices
+|   |   |-- gpiochip0 -> ../../../devices/platform/soc/3f200000.gpio/gpiochip0
+|   |   `-- gpiochip1 -> ../../../devices/platform/soc/soc:expgpio/gpiochip1
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- hid
+|   |-- devices
+|   |-- drivers
+|   |   `-- hid-generic
+|   |       |-- bind
+|   |       |-- new_id
+|   |       |-- uevent
+|   |       `-- unbind
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- i2c
+|   |-- devices
+|   |   |-- 0-0057 -> ../../../devices/platform/soc/3f205000.i2c/i2c-0/0-0057
+|   |   |-- 0-006a -> ../../../devices/platform/soc/3f205000.i2c/i2c-0/0-006a
+|   |   |-- 1-0060 -> ../../../devices/platform/soc/3f804000.i2c/i2c-1/1-0060
+|   |   |-- 2-0057 -> ../../../devices/platform/soc/3f805000.i2c/i2c-2/2-0057
+|   |   |-- i2c-0 -> ../../../devices/platform/soc/3f205000.i2c/i2c-0
+|   |   |-- i2c-1 -> ../../../devices/platform/soc/3f804000.i2c/i2c-1
+|   |   `-- i2c-2 -> ../../../devices/platform/soc/3f805000.i2c/i2c-2
+|   |-- drivers
+|   |   |-- at24
+|   |   |   |-- 0-0057 -> ../../../../devices/platform/soc/3f205000.i2c/i2c-0/0-0057
+|   |   |   |-- 2-0057 -> ../../../../devices/platform/soc/3f805000.i2c/i2c-2/2-0057
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- dummy
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   `-- st_lsm6dsx_i2c
+|   |       |-- 0-006a -> ../../../../devices/platform/soc/3f205000.i2c/i2c-0/0-006a
+|   |       |-- bind
+|   |       |-- uevent
+|   |       `-- unbind
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- iio
+|   |-- devices
+|   |   |-- iio:device0 -> ../../../devices/platform/soc/3f205000.i2c/i2c-0/0-006a/iio:device0
+|   |   `-- iio:device1 -> ../../../devices/platform/soc/3f205000.i2c/i2c-0/0-006a/iio:device1
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- mmc
+|   |-- devices
+|   |   |-- mmc0:aaaa -> ../../../devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa
+|   |   `-- mmc1:0001 -> ../../../devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001
+|   |-- drivers
+|   |   `-- mmcblk
+|   |       |-- bind
+|   |       |-- mmc0:aaaa -> ../../../../devices/platform/soc/3f202000.mmc/mmc_host/mmc0/mmc0:aaaa
+|   |       |-- uevent
+|   |       `-- unbind
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- mmc_rpmb
+|   |-- devices
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- nvmem
+|   |-- devices
+|   |   |-- 0-00570 -> ../../../devices/platform/soc/3f205000.i2c/i2c-0/0-0057/0-00570
+|   |   `-- 2-00570 -> ../../../devices/platform/soc/3f805000.i2c/i2c-2/2-0057/2-00570
+|   |-- drivers
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- platform
+|   |-- devices
+|   |   |-- 3f007000.dma -> ../../../devices/platform/soc/3f007000.dma
+|   |   |-- 3f00b840.mailbox -> ../../../devices/platform/soc/3f00b840.mailbox
+|   |   |-- 3f00b880.mailbox -> ../../../devices/platform/soc/3f00b880.mailbox
+|   |   |-- 3f100000.watchdog -> ../../../devices/platform/soc/3f100000.watchdog
+|   |   |-- 3f101000.cprman -> ../../../devices/platform/soc/3f101000.cprman
+|   |   |-- 3f104000.rng -> ../../../devices/platform/soc/3f104000.rng
+|   |   |-- 3f200000.gpio -> ../../../devices/platform/soc/3f200000.gpio
+|   |   |-- 3f200000.gpiomem -> ../../../devices/platform/soc/3f200000.gpiomem
+|   |   |-- 3f202000.mmc -> ../../../devices/platform/soc/3f202000.mmc
+|   |   |-- 3f204000.spi -> ../../../devices/platform/soc/3f204000.spi
+|   |   |-- 3f205000.i2c -> ../../../devices/platform/soc/3f205000.i2c
+|   |   |-- 3f209000.dsi -> ../../../devices/platform/soc/3f209000.dsi
+|   |   |-- 3f212000.thermal -> ../../../devices/platform/soc/3f212000.thermal
+|   |   |-- 3f215000.aux -> ../../../devices/platform/soc/3f215000.aux
+|   |   |-- 3f300000.mmc -> ../../../devices/platform/soc/3f300000.mmc
+|   |   |-- 3f804000.i2c -> ../../../devices/platform/soc/3f804000.i2c
+|   |   |-- 3f805000.i2c -> ../../../devices/platform/soc/3f805000.i2c
+|   |   |-- 3f980000.usb -> ../../../devices/platform/soc/3f980000.usb
+|   |   |-- alarmtimer -> ../../../devices/platform/alarmtimer
+|   |   |-- arm-pmu -> ../../../devices/platform/arm-pmu
+|   |   |-- bcm2835-camera -> ../../../devices/platform/soc/3f00b840.mailbox/bcm2835-camera
+|   |   |-- bcm2835-codec -> ../../../devices/platform/soc/3f00b840.mailbox/bcm2835-codec
+|   |   |-- clocks -> ../../../devices/platform/clocks
+|   |   |-- fixedregulator_3v3 -> ../../../devices/platform/fixedregulator_3v3
+|   |   |-- fixedregulator_5v0 -> ../../../devices/platform/fixedregulator_5v0
+|   |   |-- leds -> ../../../devices/platform/leds
+|   |   |-- phy -> ../../../devices/platform/phy
+|   |   |-- raspberrypi-hwmon -> ../../../devices/platform/soc/soc:firmware/raspberrypi-hwmon
+|   |   |-- regulatory.0 -> ../../../devices/platform/regulatory.0
+|   |   |-- soc -> ../../../devices/platform/soc
+|   |   |-- soc:arm-pmu -> ../../../devices/platform/soc/soc:arm-pmu
+|   |   |-- soc:expgpio -> ../../../devices/platform/soc/soc:expgpio
+|   |   |-- soc:fb -> ../../../devices/platform/soc/soc:fb
+|   |   |-- soc:firmware -> ../../../devices/platform/soc/soc:firmware
+|   |   |-- soc:power -> ../../../devices/platform/soc/soc:power
+|   |   |-- soc:vcsm -> ../../../devices/platform/soc/soc:vcsm
+|   |   |-- timer -> ../../../devices/platform/timer
+|   |   `-- vcsm-cma -> ../../../devices/platform/soc/3f00b840.mailbox/vcsm-cma
+|   |-- drivers
+|   |   |-- alarmtimer
+|   |   |   |-- alarmtimer -> ../../../../devices/platform/alarmtimer
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835-aux-clk
+|   |   |   |-- 3f215000.aux -> ../../../../devices/platform/soc/3f215000.aux
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835-clk
+|   |   |   |-- 3f101000.cprman -> ../../../../devices/platform/soc/3f101000.cprman
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835-dma
+|   |   |   |-- 3f007000.dma -> ../../../../devices/platform/soc/3f007000.dma
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835-mbox
+|   |   |   |-- 3f00b880.mailbox -> ../../../../devices/platform/soc/3f00b880.mailbox
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835-rng
+|   |   |   |-- 3f104000.rng -> ../../../../devices/platform/soc/3f104000.rng
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835-vcsm
+|   |   |   |-- bind
+|   |   |   |-- soc:vcsm -> ../../../../devices/platform/soc/soc:vcsm
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835_thermal
+|   |   |   |-- 3f212000.thermal -> ../../../../devices/platform/soc/3f212000.thermal
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- bcm2835_vchiq
+|   |   |   |-- 3f00b840.mailbox -> ../../../../devices/platform/soc/3f00b840.mailbox
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- brcmvirt-gpio
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- gpio-clk
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- gpiomem-bcm2835
+|   |   |   |-- 3f200000.gpiomem -> ../../../../devices/platform/soc/3f200000.gpiomem
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- i2c-bcm2835
+|   |   |   |-- 3f205000.i2c -> ../../../../devices/platform/soc/3f205000.i2c
+|   |   |   |-- 3f804000.i2c -> ../../../../devices/platform/soc/3f804000.i2c
+|   |   |   |-- 3f805000.i2c -> ../../../../devices/platform/soc/3f805000.i2c
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- mmc-bcm2835
+|   |   |   |-- 3f300000.mmc -> ../../../../devices/platform/soc/3f300000.mmc
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- of_fixed_clk
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- of_fixed_factor_clk
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- pinctrl-bcm2835
+|   |   |   |-- 3f200000.gpio -> ../../../../devices/platform/soc/3f200000.gpio
+|   |   |   `-- uevent
+|   |   |-- pwrseq_emmc
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- pwrseq_simple
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- raspberrypi-exp-gpio
+|   |   |   |-- bind
+|   |   |   |-- soc:expgpio -> ../../../../devices/platform/soc/soc:expgpio
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- raspberrypi-firmware
+|   |   |   |-- bind
+|   |   |   |-- soc:firmware -> ../../../../devices/platform/soc/soc:firmware
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- raspberrypi-hwmon
+|   |   |   |-- bind
+|   |   |   |-- raspberrypi-hwmon -> ../../../../devices/platform/soc/soc:firmware/raspberrypi-hwmon
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- raspberrypi-power
+|   |   |   |-- bind
+|   |   |   |-- soc:power -> ../../../../devices/platform/soc/soc:power
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- sdhost-bcm2835
+|   |   |   |-- 3f202000.mmc -> ../../../../devices/platform/soc/3f202000.mmc
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- smi-bcm2835
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- smi-dev-bcm2835
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- spi-bcm2835
+|   |   |   |-- 3f204000.spi -> ../../../../devices/platform/soc/3f204000.spi
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   |-- syscon
+|   |   |   |-- bind
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   `-- vcsm-cma
+|   |       |-- bind
+|   |       |-- uevent
+|   |       |-- unbind
+|   |       `-- vcsm-cma -> ../../../../devices/platform/soc/3f00b840.mailbox/vcsm-cma
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- sdio
+|   |-- devices
+|   |   |-- mmc1:0001:1 -> ../../../devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:1
+|   |   |-- mmc1:0001:2 -> ../../../devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:2
+|   |   `-- mmc1:0001:3 -> ../../../devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:3
+|   |-- drivers
+|   |   `-- brcmfmac
+|   |       |-- bind
+|   |       |-- mmc1:0001:1 -> ../../../../devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:1
+|   |       |-- mmc1:0001:2 -> ../../../../devices/platform/soc/3f300000.mmc/mmc_host/mmc1/mmc1:0001/mmc1:0001:2
+|   |       |-- uevent
+|   |       `-- unbind
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- serio
+|   |-- devices
+|   |-- drivers
+|   |   |-- atkbd
+|   |   |   |-- bind
+|   |   |   |-- bind_mode
+|   |   |   |-- description
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   `-- psmouse
+|   |       |-- bind
+|   |       |-- bind_mode
+|   |       |-- description
+|   |       |-- uevent
+|   |       `-- unbind
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+|-- spi
+|   |-- devices
+|   |   |-- spi0.0 -> ../../../devices/platform/soc/3f204000.spi/spi_master/spi0/spi0.0
+|   |   `-- spi0.1 -> ../../../devices/platform/soc/3f204000.spi/spi_master/spi0/spi0.1
+|   |-- drivers
+|   |   |-- spidev
+|   |   |   |-- bind
+|   |   |   |-- spi0.0 -> ../../../../devices/platform/soc/3f204000.spi/spi_master/spi0/spi0.0
+|   |   |   |-- spi0.1 -> ../../../../devices/platform/soc/3f204000.spi/spi_master/spi0/spi0.1
+|   |   |   |-- uevent
+|   |   |   `-- unbind
+|   |   `-- st_lsm6dsx_spi
+|   |       |-- bind
+|   |       |-- uevent
+|   |       `-- unbind
+|   |-- drivers_autoprobe
+|   |-- drivers_probe
+|   `-- uevent
+`-- workqueue
+    |-- devices
+    |   `-- writeback -> ../../../devices/virtual/workqueue/writeback
+    |-- drivers
+    |-- drivers_autoprobe
+    |-- drivers_probe
+    `-- uevent
+
+192 directories, 174 files
