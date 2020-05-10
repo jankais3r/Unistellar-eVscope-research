@@ -42,6 +42,10 @@ Here's a simple diagram of how are these things connected together:
 
 The Raspberry Pi does not use its DSI display interface, audio jack, or any of the USB ports. It gets power via GPIO pins from the Unishield, which is then directly soldered to a battery. The GPIO is also used for communication with the Unishield, e.g. to control the azimuth/altitude motors. The camera stream goes from the IMX224 sensor's board to the Unishield via an HDMI cable, and the data is then forwarded to the Raspberry Pi through the CSI camera interface. This is the same ribbon cable connector used by the official Raspberry Pi [camera module](https://www.raspberrypi.org/products/camera-module-v2/) (which uses IMX219, a different Sony sensor). Raspberry Pi then uses its own HDMI-out to display the starfield in the eye-piece, which is powered by an OLED display.
 
+For your reference:
+* [Decompiled device tree](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/other/evscope.dtb.txt)
+* [/dev/](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/other/dev.txt)
+* [/sys/bus/](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/other/sys_bus.txt)
 
 ## Software
 
@@ -55,7 +59,7 @@ As discussed in the hardware section, eVscope is powered by a Raspberry Pi board
 
 We see 4 partitions. Partition 1 and 2 are identical, and one of them likely acts as a fallback in case of a failed firmware update. Partition 3 contains a fairly large (3.4GB) SQLite database called `afdstarmap.db`, which holds information about objects in the sky. This database is used by the telescope to figure out where it should point itself. The 4th and largest partition is also the only one that is used for storing user data, e.g. observations that can be later uploaded to Unistellar for research purposes.
 
-Partitions 1 & 2 are the ones we'll focus on first. We see a fairly standard setup for a Raspberry-based device. `cmdline.txt` and `config.txt` are used for interfacing with the firmware and it's where you set low level hardware preferences for different system buses and/or features of the SoC. `evscope.dtb` contains a device tree, describing all the different hardware features of the board(s). You can browse the decompiled dtb file [here](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/other/evscope.dtb.txt). Then we have `evscope.fw`, which is the most important file of all - it contains the whole Linux system that powers the machine. Because the system is booted from a firmware file rather than a regular filesystem, runtime changes are not written back and the system is restored to its previous configuration on every reboot.
+Partitions 1 & 2 are the ones we'll focus on first. We see a fairly standard setup for a Raspberry-based device. `cmdline.txt` and `config.txt` are used for interfacing with the firmware and it's where you set low level hardware preferences for different system buses and/or features of the SoC. `evscope.dtb` contains a device tree, describing all the different hardware features of the board(s). I've linked to the decompiled device tree in the hardware section. Then we have `evscope.fw`, which is the most important file of all - it contains the whole Linux system that powers the machine. Because the system is booted from a firmware file rather than a regular filesystem, runtime changes are not written back and the system is restored to its previous configuration on every reboot.
 
 Upon boot, Partition 3 gets mounted as `/media/ro`, while the user-data Partition 4 gets mounted as `/media/rw`. How do we know that?
 
@@ -238,7 +242,7 @@ total 256764
 -rw-r--r--    1 root     root       1936656 Mar 30  2020 1585598331420.fbo
 ```
 
-Let's see what we can deduce just from the file listing. You can tell that the filenames are timestamps in the Unix epoch format. So, could these actually be images? But in which format? If you look closely, you can see that there are only 3 unique file sizes - `2,545,672`, `1,936,656` and `1,936,648`. Different images having the exact same file size automatically exclude any conventinal image format, as those (even the lossless ones) work with compression. Time to look under the lid (you can download 6 sample fbo images [here](https://github.com/jankais3r/Unistellar-eVscope-research/tree/master/images/software/fbo)).
+Let's see what we can deduce just from the file listing. You can tell that the filenames are timestamps in the Unix epoch format. So, could these actually be images? But in which format? If you look closely, you can see that there are only 3 unique file sizes - `2,545,672`, `1,936,656` and `1,936,648`. Different images having the exact same file size automatically exclude any conventinal image format, as those (even the lossless ones) work with compression. Time to look under the lid (you can download 7 sample fbo images [here](https://github.com/jankais3r/Unistellar-eVscope-research/tree/master/images/software/fbo)).
 
 ![2.5MB fbo](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/highres_fbo.png)
 
@@ -261,9 +265,7 @@ But what about the 1.9MB files? Try to load them, you'll see just a mess of pixe
 
 When we know that `2,545,672` images are 1,304 pixels wide, how wide are `1,936,656` images? Cross-multiplication, I knew I would use you one day. `992.0364540286`, let's make it 992 px.
 
-![Where](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1585345559058.png)
-![you](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1585345563030.png)
-![going](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1585345567002.png)
+![Lowres star](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/1585345559058.png)
 
 I have not figured out why these lower resolution pictures have so much noise in them (and a different type of noise than the light polution in the first big picture), but they also seem to be taken much more frequently, which means we can make an animation out of them.
 
