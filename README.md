@@ -204,6 +204,125 @@ If you're curious which binaries we have access to in general, the full listing 
 
 No package manager and a volatile filesystem means that we'll have to scp in any binary that's not currently available, e.g. `tcpdump` for dumping network traffic between the telescope and a mobile app, and we'll have to do to do it again after every reboot.
 
+Let's have a look at what info do the standard Raspberry Pi binaries provide about the camera:
+```
+# mmal_vc_diag camerainfo
+cameras  : 0
+flashes  : 2
+flash 0  : flash type LED
+flash 1  : flash type LED
+
+# mmal_vc_diag mmal-stats
+component		port		buffers		fps	delay
+ril.resize          	0 [in ]rx	5606      	30.0	39977
+ril.resize          	0 [in ]tx	5606      	30.0	41214
+ril.resize          	0 [out]rx	5607      	29.9	787336
+ril.resize          	0 [out]tx	5606      	30.0	41212
+ril.video_encode    	0 [in ]rx	5606      	30.0	35930
+ril.video_encode    	0 [in ]tx	5606      	30.0	38675
+ril.video_encode    	0 [out]rx	5700      	30.4	783872
+ril.video_encode    	0 [out]tx	5700      	30.4	783883
+ril.video_render    	0 [in ]rx	5606      	30.0	45526
+ril.video_render    	0 [in ]tx	5604      	30.0	50018
+ril.hvs             	0 [in ]rx	5606      	30.0	45171
+ril.hvs             	0 [in ]tx	5606      	30.0	45526
+ril.hvs             	1 [in ]rx	0         	 0.0	0
+ril.hvs             	1 [in ]tx	0         	 0.0	0
+ril.hvs             	2 [in ]rx	0         	 0.0	0
+ril.hvs             	2 [in ]tx	0         	 0.0	0
+ril.hvs             	3 [in ]rx	0         	 0.0	0
+ril.hvs             	3 [in ]tx	0         	 0.0	0
+ril.hvs             	4 [in ]rx	1         	 0.0	0
+ril.hvs             	4 [in ]tx	0         	 0.0	0
+ril.hvs             	0 [out]rx	5606      	29.9	877887
+ril.hvs             	0 [out]tx	5606      	30.0	45543
+ril.video_splitter  	0 [in ]rx	841       	 5.0	209922
+ril.video_splitter  	0 [in ]tx	841       	 5.0	209922
+ril.video_splitter  	0 [out]rx	842       	 5.0	1013016
+ril.video_splitter  	0 [out]tx	841       	 5.0	209111
+ril.video_splitter  	1 [out]rx	842       	 5.0	1017756
+ril.video_splitter  	1 [out]tx	841       	 5.0	209921
+ril.video_splitter  	2 [out]rx	0         	 0.0	0
+ril.video_splitter  	2 [out]tx	0         	 0.0	0
+ril.video_splitter  	3 [out]rx	0         	 0.0	0
+ril.video_splitter  	3 [out]tx	0         	 0.0	0
+ril.image_fx        	0 [in ]rx	841       	 5.0	207727
+ril.image_fx        	0 [in ]tx	841       	 5.0	208498
+ril.image_fx        	0 [out]rx	842       	 5.0	811206
+ril.image_fx        	0 [out]tx	841       	 5.0	208500
+ril.isp             	0 [in ]rx	841       	 5.0	207830
+ril.isp             	0 [in ]tx	841       	 5.0	207860
+ril.isp             	0 [out]rx	843       	 5.0	208401
+ril.isp             	0 [out]tx	841       	 5.0	207858
+ril.isp             	1 [out]rx	843       	 5.0	214934
+ril.isp             	1 [out]tx	841       	 5.0	207857
+ril.rawcam          	0 [out]rx	1704      	10.1	200298
+ril.rawcam          	0 [out]tx	1700      	10.1	200101
+
+
+# raspistill -f
+mmal: Cannot read camera info, keeping the defaults for OV5647
+mmal: mmal_vc_component_create: failed to create component 'vc.ril.camera' (1:ENOMEM)
+mmal: mmal_component_create_core: could not create component 'vc.ril.camera' (1)
+mmal: Failed to create camera component
+mmal: main: Failed to create camera component
+mmal: Camera is not detected. Please check carefully the camera module is installed correctly
+```
+
+Too bad, it seems that we won't be able to use standard tooling to access the camera. Not surprising though, working with other than official camera modules has always been a problem on Raspberries. [libcamera](https://www.raspberrypi.org/blog/an-open-source-camera-stack-for-raspberry-pi-using-libcamera/) is here to change that, but that does not apply for our use case.
+
+What about the display in the eye piece?
+```
+# tvservice -s
+state 0x12000a [HDMI DMT (16) RGB full 4:3], 1024x768 @ 60.00Hz, progressive
+
+
+# tvservice -n
+[E] No device present
+```
+
+The reported HDMI mode is 1024x768, however the [sight image](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/mire.rgba.png) used for focusing of the display has a resolution of 1280x960. When looked in the eye-pieace, the display has a circular shape. So far I haven't spent time investigating how many pixels are actually visible.
+
+i2c bus:
+```
+# i2cdetect -y 0
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- 1a -- -- -- 1e --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- 36 -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- UU -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- UU -- -- -- -- --
+70: -- -- -- -- -- -- -- --
+
+
+# i2cdetect -y 1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: 60 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
+```
+
+Network connections:
+```
+# netstat -tuln | grep LISTEN
+netstat: /proc/net/tcp6: No such file or directory
+tcp        0      0 0.0.0.0:13007           0.0.0.0:*               LISTEN
+tcp        0      0 0.0.0.0:13009           0.0.0.0:*               LISTEN
+tcp        0      0 0.0.0.0:13012           0.0.0.0:*               LISTEN
+tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN
+tcp        0      0 192.168.100.1:53        0.0.0.0:*               LISTEN
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
+```
+
+Port `13007` is used by the telescope to announce its status. Port `13009` is used for the camera data stream. Port `13012` is used for controlling the telescope. More on those later.
+
 
 #### FBO Images
 
