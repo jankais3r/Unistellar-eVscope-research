@@ -1,7 +1,7 @@
 # Unistellar eVscope research
 Reverse engineering notes - **this is a work in progress**
 
-[Product website](https://unistellaroptics.com/product/)
+[Product website (archived)](https://web.archive.org/web/20210928160037/https://unistellaroptics.com/evscope/)
 
 ## End goals
 The purpose of this research is to:
@@ -19,12 +19,13 @@ The purpose of this research is to:
     * [evsoft](#evsoft)
     * [Does it run Doom?](#does-it-run-doom)
   * Mobile app
+* [Reviving a dead eVscope](#reviving-a-dead-evscope)
 
 ## Hardware
 
 - System platform: [Raspberry Pi 3 A+](https://www.raspberrypi.org/products/raspberry-pi-3-model-a-plus/)
 - Custom board: Unistellar Unishield (Rev P)
-- Camera sensor: [Sony IMX224](https://www.sony-semicon.co.jp/products/common/pdf/IMX224.pdf)
+- Camera sensor: [Sony IMX224](https://www.sony-semicon.com/files/62/pdf/p-15_IMX224.pdf)
 - Storage: 16GB SanDisk micro SD card
 
 Here is what you see once you remove the side cover:
@@ -33,7 +34,7 @@ Here is what you see once you remove the side cover:
 And a close-up on the Unishield:
 ![Unishield](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/IMG_2291.jpg)
 
-When we disconnect Unishield from the Raspi, we can see the bottom side of the PCB with a [dsPIC33E microchip](https://www.microchip.com/wwwproducts/en/dsPIC33EP128GM304) responsible for control of the motors. The Unishield also contains a [LSM6DSM](https://www.st.com/resource/en/datasheet/lsm6dsm.pdf) gyroscope/accelerometer module.
+When we disconnect Unishield from the Raspi, we can see the bottom side of the PCB with a [dsPIC33E microchip](https://www.microchip.com/en-us/product/dsPIC33EP128GM304) responsible for control of the motors. The Unishield also contains a [LSM6DSM](https://www.st.com/resource/en/datasheet/lsm6dsm.pdf) gyroscope/accelerometer module.
 ![Unishield's underside](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/IMG_2343.jpg)
 
 See more pictures (and a video) [here](https://github.com/jankais3r/Unistellar-eVscope-research/tree/master/images/hardware).
@@ -368,7 +369,7 @@ Let's see what we can deduce just from the file listing. You can tell that the f
 
 If we look at multiple 2.5MB fbo files, we'll start to see a pattern - a 262-byte long header containing the telescope's serial number, and then just bunch of data. 
 
-The constant file size and the `.fbo` extension (framebuffer?) suggests we might be looking at raw picture data. Let's throw it at [RAW Pixels](http://rawpixels.net) to see what we get. The most important variable when rendering raw bytes as an image is the picture resolution (more specifically, the width). Luckily we know that eVscope uses Sony IMX224 sensor with resolution of 1304x976. We put those values into RAW Pixels and we watch what happens.
+The constant file size and the `.fbo` extension (framebuffer?) suggests we might be looking at raw picture data. Let's throw it at [RAW Pixels](https://web.archive.org/web/20230918090107/https://rawpixels.net/) to see what we get. The most important variable when rendering raw bytes as an image is the picture resolution (more specifically, the width). Luckily we know that eVscope uses Sony IMX224 sensor with resolution of 1304x976. We put those values into RAW Pixels and we watch what happens.
 
 ![Bingo!](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/fbo/pixelraw.png)
 
@@ -410,7 +411,7 @@ It is responsible for (non-exhaustive list):
 
 The Unistellar team chose [ZeroMQ](https://zeromq.org) library for 1) routing the camera data within the evsoft process, and 2) communication between the telescope and the mobile apps. It seems to be a good choice for a multiplatform application. The only downside I found so far is that I've never used it before, so my research is going a bit slower than I would like.
 
-I've ran the evsoft binary through strings, and I've found these relevant [inproc://](http://api.zeromq.org/2-1:zmq-inproc) zmq endpoints:
+I've ran the evsoft binary through strings, and I've found these relevant [inproc://](https://libzmq.readthedocs.io/en/zeromq3-x/zmq_inproc.html) zmq endpoints:
 ```
 inproc://deinterlacing_frame
 inproc://background_frame
@@ -441,3 +442,77 @@ They all seem to be holding camera data in different states, however the inproc 
 ![Doom](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/evscope/doom.gif)
 
 &ast; eVscope == Raspberry Pi, so of course it does run Doom. However, as compiling [Chocolate Doom](https://www.chocolate-doom.org/wiki/index.php/Building_Chocolate_Doom_on_Linux) on a box without a package manager would be a very frustrating experience, this demo simply shows a static image.
+
+### Reviving a dead eVscope
+
+With the European Solar Eclipse of 2026 coming up, I decided to revive my eVscope that in recent years mostly served as an apartment decor due to its long dead battery.
+
+Here is how to revive your scopes:
+
+#### Battery
+
+Unistellar [used to sell](https://shop.unistellar.com/products/battery-eq-ev) a $199 OEM battery replacement, but not anymore. The battery is housed in the telescope's bottom part and is easily accessible after the removal of a couple of screws. Upon inspection we can see that the battery pack is made up of six 18650 cells wired in parallel. To make your own pack, simply solder/spot-weld 6 new cells together in the same layout as the original. Don't forget to transplant the original BCM board that makes sure the battery doesn't get too discharged (bad) or overcharged (VERY bad).
+
+![Original left, remade right](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/battery1.jpg)
+
+The tolerances are really precise so it was a tight squeeze, but in the end the new pack does fit into the original CNC'ed slot.
+
+![Installed in the scope](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/battery2.jpg)
+
+#### Firmware
+
+With the new battery installed, it was time to update the scope's firmware. Turns out that the current Unistellar app is not able to update 2021-ish era firmware. There might be multiple root causes (such as a change in the update API), but one certain issue is that the old firmware FAT32 partitions are formatted to just 32MB. That used to be enough for the firmwares of the past, but the current firmware takes twice as much space.
+
+The error you'll receive when attempting to update via the official route, and the final outcome of our manual process.
+
+![Update via the mobile app fails](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/mobile_app/firmwareupdate1.png)
+
+Luckily, we can trivially extract the latest firmware from the mobile app, and copy it to the SD card manually. The below steps are tailored for macOS, but will be similar on other OSes.
+
+1. Plug the eVscope's SD card into your computer and run `diskutil list` to determine its disk ID.
+2. Expand (and wipe) the firmware partitions from 32MB to 128MB .
+
+```
+% diskutil eraseVolume "MS-DOS" datasys /dev/disk13s1 
+% diskutil eraseVolume "MS-DOS" datasys /dev/disk13s2
+```
+
+3. Download the latest Unistellar APK  from APKPure (at the time of writing it's [v5.0.0](https://apkpure.com/unistellar/com.unistellar.evscope.android/download/5.0.0)).
+4. Extract and mount the firmware  image.
+
+```
+% unzip Unistellar_5.0.0_APKPure.xapk com.unistellar.evscope.android.apk 
+% unzip com.unistellar.evscope.android.apk assets/b 
+% diskutil image attach ./assets/b 
+% ls -la /Volumes/datasys
+total 114784
+drwx------@  1 jankais3r  staff     16384 Aug 12 01:33 .
+drwxr-xr-x  10 root       wheel       320 Aug 12 01:33 ..
+-rwx------   1 jankais3r  staff        64 Mar 20 14:54 .version
+-rwx------   1 jankais3r  staff     32753 Mar 20 14:54 bcm2710-rpi-3-b-plus.dtb
+-rwx------   1 jankais3r  staff     32142 Mar 20 14:54 bcm2710-rpi-3-b.dtb
+-rwx------   1 jankais3r  staff     31318 Mar 20 14:54 bcm2710-rpi-zero-2-w.dtb
+-rwx------   1 jankais3r  staff     52593 Mar 20 14:54 bcm2711-rpi-4-b.dtb
+-rwx------   1 jankais3r  staff     53202 Mar 20 14:54 bcm2711-rpi-cm4.dtb
+-rwx------   1 jankais3r  staff     52476 Mar 20 14:54 bootcode.bin
+-rwx------   1 jankais3r  staff        78 Mar 20 14:54 cmdline.txt
+-rwx------   1 jankais3r  staff       485 Mar 20 14:54 config.txt
+-rwx------   1 jankais3r  staff     29082 Mar 20 14:54 dt-blob.bin
+-rwx------   1 jankais3r  staff   9921904 Mar 20 14:54 evkernel.img
+-rwx------   1 jankais3r  staff  41762816 Mar 20 14:54 evscope.fw
+-rwx------   1 jankais3r  staff     10228 Mar 20 14:54 fixup_x.dat
+-rwx------   1 jankais3r  staff      8387 Mar 20 14:54 fixup4x.dat
+drwx------   1 jankais3r  staff     26624 Mar 20 14:54 overlays
+-rwx------   1 jankais3r  staff   3722504 Mar 20 14:54 start_x.elf
+-rwx------   1 jankais3r  staff   2998888 Mar 20 14:54 start4x.elf
+```
+
+5. Copy all the files from the mounted image into the previously formatted partitions on the SD card. Be sure to include the hidden file `.version` without which the scope won't boot.
+
+![Contents of the fw partition](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/software/mobile_app/firmwareupdate2.png)
+
+6. Put the SD card back into the scope and boot it up - you should be up to date.
+
+![Observing the solar eclipse in Swiss mountains](https://github.com/jankais3r/Unistellar-eVscope-research/blob/master/images/hardware/eclipse.jpg)
+
+Don't forget a solar filter if you're planning to point the eVscope at the Sun.
